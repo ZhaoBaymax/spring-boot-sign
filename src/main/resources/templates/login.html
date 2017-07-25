@@ -7,7 +7,7 @@
 <script type="text/javascript">
 	/*<![CDATA[*/
 	var app = angular.module('app', []);
-	app.controller('MainController', function($rootScope, $scope, $http) {
+	app.controller('LoginController', function($rootScope, $scope, $http) {
 		$scope.message = '';
 		$scope.account = '';
 		$scope.password = '';
@@ -32,7 +32,9 @@
 				window.location.href = '/';
 			});
 		}
-		
+		$scope.register = function(){
+			window.location.href = '/register';
+		}
 	
 
 	});
@@ -55,7 +57,7 @@
 		</tr>
 	</table>
 	<input type="button" value="登录" ng-click="login()" />
-	<input type="button" value="注册"/>
+	<input type="button" value="注册" ng-click="register()" />
 	<br />
 	<font color="red" ng-show="message">{{message}}</font>
 	<br />

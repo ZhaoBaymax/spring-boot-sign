@@ -2,13 +2,100 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>签到系统</title>
+<title>玩转spring boot——结合JPA</title>
+<script src="//cdn.bootcss.com/angular.js/1.5.6/angular.min.js"></script>
+<script type="text/javascript">
+	/*<![CDATA[*/
+	var app = angular.module('app', []);
+	app.controller(
+					'SignController',function($rootScope, $scope, $http) {
+
+						$scope.data = {};
+						$scope.rows = [];
+					
+
+						$scope.findAllByUsBetween = function() {
+							$http(
+									{
+										url : '/findAllByDateBetween',
+										method : 'POST',
+										headers : {
+											'Content-Type' : 'application/x-www-form-urlencoded'
+										},
+										data : 'startDate=' + $scope.startDate
+												+ '&endDate=' + $scope.endDate
+									}).success(function(rows) {
+								$scope.rows = rows;
+							});
+						};
+					});
+
+
+	/*]]>*/
+</script>
 </head>
-<body>
-    <h1>欢迎来到签到系统</h1>
+<body ng-app="app" ng-controller="MainController">
+	  <h1>欢迎来到签到系统</h1>
     <h3 th:text="'登录用户：' + ${name}"></h3>
     
     <a href="/logout">注销</a>
-    <br />
+    
+
+	<input type="button" value="签到" ng-click="sign()" />
+
+	<br />
+	<br />
+	<h3>签到信息：</h3>
+	<input type="hidden" ng-model="data.id" />
+	<table cellspacing="1" style="background-color: #a0c6e5">
+		<tr>
+			<td>帐号：</td>
+			<td><input ng-model="data.username" /></td>
+			<td>日期：</td>
+			<td><input ng-model="data.date" /></td>
+
+		</tr>
+	</table>
+	<br />
+	<h3>查询条件：</h3>
+
+	<table cellspacing="1" style="background-color: #a0c6e5">
+
+		<tr>
+			<td>日期：</td>
+			<td>从<input ng-model="startDate" />至<input ng-model="endDate" /></td>
+			<td><input type="button" ng-click="findAllByDateBetween()"
+				value="between查询" /></td>
+		</tr>
+	</table>
+
+	<br />
+	<h3>订单列表：</h3>
+	<table cellspacing="1" style="background-color: #a0c6e5">
+		<tr
+			style="text-align: center; COLOR: #0076C8; BACKGROUND-COLOR: #F4FAFF; font-weight: bold">
+			<td>帐号</td>
+			<td>日期</td>
+		</tr>
+		<tr ng-repeat="row in rows" bgcolor='#F4FAFF'>
+			<td>{{row.username}}</td>
+			<td>{{row.date}}</td>
+
+		</tr>
+	</table>
+
+	<br />
 </body>
 </html>
+
+
+
+
+
+
+
+
+  
+  
+    
+    
